@@ -37,5 +37,12 @@
         "psr-4": {
             "Fbcl\\OpenTextApi\\Laravel\\Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fbcl\\OpenTextApi\\Laravel\\OpenTextServiceProvider"
+            ]
+        }
     }
 }
