@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=7.2",
-        "fbclit/opentextapi": "^v0.0.2",
+        "fbclit/opentextapi": "^0.0.3",
         "illuminate/support": "^6.0|^7.0"
     },
     "require-dev": {

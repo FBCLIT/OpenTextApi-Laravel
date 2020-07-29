@@ -2,8 +2,8 @@
 
 namespace Fbcl\OpenTextApi\Laravel\Tests;
 
-use Fbcl\OpenTextApi\Api;
-use Fbcl\OpenTextApi\Client;
+use Fbcl\OpenTextApi\Laravel\ClientManager;
+use Fbcl\OpenTextApi\Laravel\Facades\Client;
 use Fbcl\OpenTextApi\Laravel\OpenTextServiceProvider;
 use GuzzleHttp\Exception\ConnectException;
 
@@ -11,15 +11,17 @@ class OpenTextClientTest extends TestCase
 {
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('opentext.url', 'url');
-        $app['config']->set('opentext.username', 'user');
-        $app['config']->set('opentext.password', 'secret');
+        $app['config']->set('opentext.default', 'default');
+        $app['config']->set('opentext.clients.default.url', 'url');
+        $app['config']->set('opentext.clients.default.username', 'user');
+        $app['config']->set('opentext.clients.default.password', 'secret');
     }
 
     public function test_client_is_registered_as_singleton()
     {
-        $client = app(Client::class);
-        $this->assertInstanceof(Client::class, $client);
+        $client = Client::getFacadeRoot();
+        $client->setConnector(function () {});
+        $this->assertInstanceof(ClientManager::class, $client);
         $this->assertEquals('url/api/v1/', $client->getBaseUrl());
         $this->assertEquals('url', $client->getUrl());
     }
@@ -35,6 +37,6 @@ class OpenTextClientTest extends TestCase
     {
         $this->expectException(ConnectException::class);
 
-        app(Api::class);
+        Client::api();
     }
 }
